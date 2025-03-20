@@ -878,6 +878,10 @@ require("lazy").setup({
 				json = { "prettier" },
 				html = { "prettier" },
 				css = { "prettier" },
+				c = { "clang-format" },
+				cpp = { "clang-format" },
+				h = { "clang-format" },
+				hpp = { "clang-format" },
 				-- Conform can also run multiple formatters sequentially
 				-- python = { "isort", "black" },
 				--
