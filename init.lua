@@ -98,6 +98,12 @@ vim.g.have_nerd_font = true
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
+vim.opt.termguicolors = true
+
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -162,16 +168,17 @@ vim.opt.scrolloff = 10
 -- Tab management
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "[T]ab [N]ew" })
 vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { desc = "[T]ab [C]lose" })
+vim.keymap.set("n", "<leader>tp", ":BufferLinePick<CR>", { desc = "[T]ab [P]ick" })
 vim.keymap.set("n", "<leader>to", ":tabonly<CR>", { desc = "[T]ab [O]nly (close others)" })
 
-for i = 1, 9 do
-	vim.keymap.set("n", "<leader>t" .. i, function()
-		if i <= #vim.api.nvim_list_tabpages() then
-			vim.cmd("tabn " .. i)
-		end
-	end, { desc = "Go to tab " .. i })
-end
--- Clear highlights on search when pressing <Esc> in normal mode
+-- Easy tab navigation
+vim.keymap.set("n", "<S-l>", ":BufferLineCycleNext<CR>", { desc = "Next tab" })
+vim.keymap.set("n", "<S-h>", ":BufferLineCyclePrev<CR>", { desc = "Prev tab" })
+
+-- Tab moving/reordering
+vim.keymap.set("n", "<leader>tm>", ":BufferLineMoveNext<CR>", { desc = "[T]ab [M]ove right" })
+vim.keymap.set("n", "<leader>tm<", ":BufferLineMovePrev<CR>", { desc = "[T]ab [M]ove left" }) -- Clear highlights on search when pressing <Esc> in normal mode
+
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
@@ -1135,6 +1142,40 @@ require("lazy").setup({
 	-- Or use telescope!
 	-- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
 	-- you can continue same window with `<space>sr` which resumes last telescope search
+	--
+	--
+	-- nvim bufferline plugin
+	{
+		"akinsho/bufferline.nvim",
+		version = "*",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("bufferline").setup({
+				options = {
+					mode = "tabs", -- Using tabs mode for simplicity
+					numbers = "ordinal", -- Show tab numbers
+					diagnostics = "nvim_lsp", -- Show diagnostics from LSP
+					separator_style = "slant",
+					show_buffer_close_icons = true,
+					show_close_icon = true,
+					color_icons = true,
+					offsets = {
+						{
+							filetype = "NvimTree",
+							text = "File Explorer",
+							highlight = "Directory",
+							separator = true,
+						},
+					},
+					hover = {
+						enabled = true,
+						delay = 200,
+						reveal = { "close" },
+					},
+				},
+			})
+		end,
+	},
 	--
 	--
 	-- nvim-tree plugin
