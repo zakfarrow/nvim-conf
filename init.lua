@@ -97,6 +97,9 @@ vim.g.have_nerd_font = true
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
+--
+
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
@@ -166,7 +169,7 @@ vim.opt.scrolloff = 10
 --  See `:help vim.keymap.set()`
 
 -- Tab management
-vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "[T]ab [N]ew" })
+vim.keymap.set("n", "<leader>tn", ":tabnew<CR>:NvimTreeOpen<CR>", { desc = "[T]ab [N]ew" })
 vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { desc = "[T]ab [C]lose" })
 vim.keymap.set("n", "<leader>tp", ":BufferLinePick<CR>", { desc = "[T]ab [P]ick" })
 vim.keymap.set("n", "<leader>to", ":tabonly<CR>", { desc = "[T]ab [O]nly (close others)" })
@@ -246,6 +249,18 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
+
+	{
+		"rmagatti/auto-session",
+		lazy = false,
+
+		opts = {
+			auto_save = true,
+			auto_restore = true,
+			log_level = "info",
+		},
+	},
+
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
@@ -724,7 +739,15 @@ require("lazy").setup({
 			--  - settings (table): Override the default settings passed when initializing the server.
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
-				-- clangd = {},
+				clangd = {
+					capabilities = {
+						offsetEncoding = { "utf-16" },
+					},
+					on_attach = function(client)
+						-- Ensure formatting is enabled for clangd
+						client.server_capabilities.documentFormattingProvider = true
+					end,
+				},
 				-- gopls = {},
 				-- pyright = {},
 				-- rust_analyzer = {},
@@ -856,7 +879,7 @@ require("lazy").setup({
 				-- Disable "format_on_save lsp_fallback" for languages that don't
 				-- have a well standardized coding style. You can add additional
 				-- languages here or re-enable it for the disabled ones.
-				local disable_filetypes = { c = true, cpp = true }
+				local disable_filetypes = {}
 				local lsp_format_opt
 				if disable_filetypes[vim.bo[bufnr].filetype] then
 					lsp_format_opt = "never"
@@ -887,6 +910,13 @@ require("lazy").setup({
 				--
 				-- You can use 'stop_after_first' to run the first available formatter from the list
 				-- javascript = { "prettierd", "prettier", stop_after_first = true },
+			},
+			formatters = {
+				clang_format = {
+					args = {
+						"--style={IndentCaseLabels: true, IndentCaseBlocks: true}",
+					},
+				},
 			},
 		},
 	},
@@ -1110,7 +1140,7 @@ require("lazy").setup({
 				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
 				additional_vim_regex_highlighting = { "ruby" },
 			},
-			indent = { enable = true, disable = { "ruby" } },
+			indent = { enable = true, disable = { "ruby", "c" } },
 		},
 		-- There are additional nvim-treesitter modules that you can use to interact
 		-- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -1193,11 +1223,16 @@ require("lazy").setup({
 		},
 		config = function()
 			require("nvim-tree").setup({
+				actions = {
+					open_file = {
+						quit_on_open = true,
+					},
+				},
 				sort = {
 					sorter = "case_sensitive",
 				},
 				view = {
-					width = 30,
+					width = 40,
 				},
 				renderer = {
 					group_empty = true,
