@@ -179,8 +179,8 @@ vim.keymap.set("n", "<S-l>", ":BufferLineCycleNext<CR>", { desc = "Next tab" })
 vim.keymap.set("n", "<S-h>", ":BufferLineCyclePrev<CR>", { desc = "Prev tab" })
 
 -- Tab moving/reordering
-vim.keymap.set("n", "<leader>tm>", ":BufferLineMoveNext<CR>", { desc = "[T]ab [M]ove right" })
-vim.keymap.set("n", "<leader>tm<", ":BufferLineMovePrev<CR>", { desc = "[T]ab [M]ove left" }) -- Clear highlights on search when pressing <Esc> in normal mode
+vim.keymap.set("n", "<leader>tm>", ":+tabmove<CR>", { desc = "[T]ab [M]ove right" })
+vim.keymap.set("n", "<leader>tm<", ":-tabmove<CR>", { desc = "[T]ab [M]ove left" }) -- Clear highlights on search when pressing <Esc> in normal mode
 
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
