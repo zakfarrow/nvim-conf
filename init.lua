@@ -251,17 +251,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 
 	{
-		"rmagatti/auto-session",
-		lazy = false,
-
-		opts = {
-			auto_save = true,
-			auto_restore = true,
-			log_level = "info",
-		},
-	},
-
-	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		opts = {},
@@ -1051,7 +1040,7 @@ require("lazy").setup({
 			---@diagnostic disable-next-line: missing-fields
 			require("tokyonight").setup({
 				styles = {
-					comments = { italic = false }, -- Disable italics in comments
+					comments = { italic = true }, -- Disable italics in comments
 				},
 			})
 
