@@ -98,8 +98,7 @@ vim.g.have_nerd_font = true
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 --
-
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+--
 
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
@@ -111,7 +110,7 @@ vim.opt.termguicolors = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
@@ -169,18 +168,18 @@ vim.opt.scrolloff = 10
 --  See `:help vim.keymap.set()`
 
 -- Tab management
-vim.keymap.set("n", "<leader>tn", ":tabnew<CR>:NvimTreeOpen<CR>", { desc = "[T]ab [N]ew" })
-vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { desc = "[T]ab [C]lose" })
-vim.keymap.set("n", "<leader>tp", ":BufferLinePick<CR>", { desc = "[T]ab [P]ick" })
-vim.keymap.set("n", "<leader>to", ":tabonly<CR>", { desc = "[T]ab [O]nly (close others)" })
-
--- Easy tab navigation
-vim.keymap.set("n", "<S-l>", ":BufferLineCycleNext<CR>", { desc = "Next tab" })
-vim.keymap.set("n", "<S-h>", ":BufferLineCyclePrev<CR>", { desc = "Prev tab" })
-
--- Tab moving/reordering
-vim.keymap.set("n", "<leader>tm>", ":+tabmove<CR>", { desc = "[T]ab [M]ove right" })
-vim.keymap.set("n", "<leader>tm<", ":-tabmove<CR>", { desc = "[T]ab [M]ove left" }) -- Clear highlights on search when pressing <Esc> in normal mode
+-- vim.keymap.set("n", "<leader>tn", ":tabnew<CR>:NvimTreeOpen<CR>", { desc = "[T]ab [N]ew" })
+-- vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { desc = "[T]ab [C]lose" })
+-- vim.keymap.set("n", "<leader>tp", ":BufferLinePick<CR>", { desc = "[T]ab [P]ick" })
+-- vim.keymap.set("n", "<leader>to", ":tabonly<CR>", { desc = "[T]ab [O]nly (close others)" })
+--
+-- -- Easy tab navigation
+-- vim.keymap.set("n", "<S-l>", ":BufferLineCycleNext<CR>", { desc = "Next tab" })
+-- vim.keymap.set("n", "<S-h>", ":BufferLineCyclePrev<CR>", { desc = "Prev tab" })
+--
+-- -- Tab moving/reordering
+-- vim.keymap.set("n", "<leader>tm>", ":+tabmove<CR>", { desc = "[T]ab [M]ove right" })
+-- vim.keymap.set("n", "<leader>tm<", ":-tabmove<CR>", { desc = "[T]ab [M]ove left" }) -- Clear highlights on search when pressing <Esc> in normal mode
 
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -1172,71 +1171,71 @@ require("lazy").setup({
 	--
 	--
 	-- nvim bufferline plugin
-	{
-		"akinsho/bufferline.nvim",
-		version = "*",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("bufferline").setup({
-				options = {
-					mode = "tabs", -- Using tabs mode for simplicity
-					numbers = "ordinal", -- Show tab numbers
-					diagnostics = "nvim_lsp", -- Show diagnostics from LSP
-					separator_style = "slant",
-					show_buffer_close_icons = true,
-					show_close_icon = true,
-					color_icons = true,
-					offsets = {
-						{
-							filetype = "NvimTree",
-							text = "File Explorer",
-							highlight = "Directory",
-							separator = true,
-						},
-					},
-					hover = {
-						enabled = true,
-						delay = 200,
-						reveal = { "close" },
-					},
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"akinsho/bufferline.nvim",
+	-- 	version = "*",
+	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	-- 	config = function()
+	-- 		require("bufferline").setup({
+	-- 			options = {
+	-- 				mode = "tabs", -- Using tabs mode for simplicity
+	-- 				numbers = "ordinal", -- Show tab numbers
+	-- 				diagnostics = "nvim_lsp", -- Show diagnostics from LSP
+	-- 				separator_style = "slant",
+	-- 				show_buffer_close_icons = true,
+	-- 				show_close_icon = true,
+	-- 				color_icons = true,
+	-- 				offsets = {
+	-- 					{
+	-- 						filetype = "NvimTree",
+	-- 						text = "File Explorer",
+	-- 						highlight = "Directory",
+	-- 						separator = true,
+	-- 					},
+	-- 				},
+	-- 				hover = {
+	-- 					enabled = true,
+	-- 					delay = 200,
+	-- 					reveal = { "close" },
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 	--
 	--
 	-- nvim-tree plugin
-	{
-		"nvim-tree/nvim-tree.lua",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		version = "*",
-		lazy = false,
-		keys = {
-			{ "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle File Explorer" },
-		},
-		config = function()
-			require("nvim-tree").setup({
-				actions = {
-					open_file = {
-						quit_on_open = true,
-					},
-				},
-				sort = {
-					sorter = "case_sensitive",
-				},
-				view = {
-					width = 40,
-				},
-				renderer = {
-					group_empty = true,
-				},
-				filters = {
-					dotfiles = false,
-					git_ignored = false,
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"nvim-tree/nvim-tree.lua",
+	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	-- 	version = "*",
+	-- 	lazy = false,
+	-- 	keys = {
+	-- 		{ "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle File Explorer" },
+	-- 	},
+	-- 	config = function()
+	-- 		require("nvim-tree").setup({
+	-- 			actions = {
+	-- 				open_file = {
+	-- 					quit_on_open = true,
+	-- 				},
+	-- 			},
+	-- 			sort = {
+	-- 				sorter = "case_sensitive",
+	-- 			},
+	-- 			view = {
+	-- 				width = 40,
+	-- 			},
+	-- 			renderer = {
+	-- 				group_empty = true,
+	-- 			},
+	-- 			filters = {
+	-- 				dotfiles = false,
+	-- 				git_ignored = false,
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
